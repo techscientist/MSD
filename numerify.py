@@ -1,5 +1,3 @@
-import scipy.io
-
 def numerify (dataFile, userFile, songFile, outFile):
 	"""
 	Input: 
