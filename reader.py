@@ -24,7 +24,7 @@ def readHistory (fileName, delimiter = ','):
 	history = dict ();
 	for line in File:
 		user, song, song_count = tuple(line.strip().split(delimiter));
-		if int(user) in history:
+		if int(user) not in history:
 			history[int(user)] = list([tuple([int(song), int(song_count)])]);
 		else:
 			history[int(user)].append(tuple([int(song), int(song_count)]));
@@ -60,7 +60,7 @@ def readUsers (fileName):
 	File.close ();
 	return users;
 
-def readSongs (fileName, deliimter = " "):
+def readSongs (fileName, delimiter = " "):
 	"""
 	Parses a given file and returns the contents in a dictionary.
 	Expected format of the file. Each line is of the form
@@ -81,8 +81,8 @@ def readSongs (fileName, deliimter = " "):
 	File = open (fileName, "r");
 	songID = 1;
 	songs = dict ();
-	for line in File;
-		song,_ = line.strip().split(delimiter)
+	for line in File:
+		song,_ = tuple(line.strip().split(delimiter));
 		if song not in songs:
 			songs[song] = songID;
 			songID = songID + 1;
@@ -117,7 +117,8 @@ def compressHistory (users, songs, inFileName, outFileName, indelim = " ", outde
 	inFile = open (inFileName, "r");
 	outFile = open (outFileName, "w");
 	for line in inFile:
-		user, song, songCount = line.strip().split (indelim);
-		outFile.write ("%s"+outdelim + "%s" + outdelim + "%s\n" %(users[user], songs[song], songCount));
+		user, song, songCount = tuple(line.strip().split (indelim));
+		outstring = "%s" + outdelim + "%s" + outdelim + "%s\n";
+		outFile.write (outstring %(str(users[user]), str(songs[song]), songCount));
 	inFile.close ();
 	outFile.close ();
